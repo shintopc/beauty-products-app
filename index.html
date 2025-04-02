@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beauty Products - Login</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .login-container {
+      max-width: 400px;
+      margin: 5rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .error-message {
+      color: #ef4444;
+      margin-top: 1rem;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <div class="login-container">
@@ -22,7 +40,9 @@
     </form>
     <p id="errorMessage" class="error-message"></p>
   </div>
+
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/utils.js"></script>
   <script src="js/auth.js"></script>
 </body>
 </html>
