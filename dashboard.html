@@ -5,6 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Beauty Products</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .sidebar {
+      width: 250px;
+      background: white;
+      height: 100vh;
+      position: fixed;
+      padding: 1.5rem;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 2rem;
+    }
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -67,6 +109,42 @@
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="js/utils.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/sales.js"></script>
+  <script>
+    // Dashboard specific JS
+    document.addEventListener('DOMContentLoaded', async () => {
+      await checkAuth();
+      
+      // Load dashboard stats
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      // Today's sales
+      const { data: todaySales } = await supabase
+        .from('sales')
+        .select('total_amount')
+        .gte('sale_date', today.toISOString());
+      
+      const todayTotal = todaySales.reduce((sum, sale) => sum + sale.total_amount, 0);
+      document.getElementById('todaySales').textContent = formatCurrency(todayTotal);
+      
+      // Recent sales
+      const { data: recentSales } = await supabase
+        .from('sales')
+        .select('sale_date, total_amount, customers(name)')
+        .order('sale_date', { ascending: false })
+        .limit(5);
+      
+      const tbody = document.querySelector('#recentSales tbody');
+      recentSales.forEach(sale => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${formatDate(sale.sale_date)}</td>
+          <td>${sale.customers?.name || 'Walk-in'}</td>
+          <td>${formatCurrency(sale.total_amount)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
 </body>
 </html>
