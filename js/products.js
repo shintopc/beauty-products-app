@@ -1,5 +1,4 @@
-import { supabase, formatDate, formatCurrency, showNotification, checkAuth } from './utils.js';
-
+// products.js
 document.addEventListener('DOMContentLoaded', async () => {
   await checkAuth();
   
@@ -18,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const costPrice = parseFloat(document.getElementById('productCostPrice').value);
       const stockQuantity = parseInt(document.getElementById('productStock').value);
       
-      const { data, error } = await supabase
+      const { data, error } = await window._supabase
         .from('products')
         .insert([{ 
           name, 
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadProducts(searchTerm = '') {
-  let query = supabase
+  let query = window._supabase
     .from('products')
     .select('*')
     .order('name', { ascending: true });
@@ -82,22 +81,17 @@ async function loadProducts(searchTerm = '') {
         </td>
       `;
       tbody.appendChild(tr);
-    });
-    
-    // Add event listeners to edit/delete buttons
-    document.querySelectorAll('.btn-edit').forEach(btn => {
-      btn.addEventListener('click', () => editProduct(btn.dataset.id));
-    });
-    
-    document.querySelectorAll('.btn-delete').forEach(btn => {
-      btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+      
+      // Add event listeners to edit/delete buttons
+      tr.querySelector('.btn-edit').addEventListener('click', () => editProduct(product.id));
+      tr.querySelector('.btn-delete').addEventListener('click', () => deleteProduct(product.id));
     });
   }
 }
 
 async function editProduct(productId) {
   // Fetch product details
-  const { data: product, error } = await supabase
+  const { data: product, error } = await window._supabase
     .from('products')
     .select('*')
     .eq('id', productId)
@@ -108,13 +102,21 @@ async function editProduct(productId) {
     return;
   }
   
-  // Show edit modal (you'll need to implement this)
-  showEditModal(product);
+  // Show edit modal
+  const modal = document.getElementById('productModal');
+  document.getElementById('productModalTitle').textContent = 'Edit Product';
+  document.getElementById('productId').value = product.id;
+  document.getElementById('productName').value = product.name;
+  document.getElementById('productDescription').value = product.description || '';
+  document.getElementById('productPrice').value = product.price;
+  document.getElementById('productCostPrice').value = product.cost_price || '';
+  document.getElementById('productStock').value = product.stock_quantity;
+  modal.style.display = 'flex';
 }
 
 async function deleteProduct(productId) {
   if (confirm('Are you sure you want to delete this product?')) {
-    const { error } = await supabase
+    const { error } = await window._supabase
       .from('products')
       .delete()
       .eq('id', productId);
@@ -126,10 +128,4 @@ async function deleteProduct(productId) {
       await loadProducts();
     }
   }
-}
-
-function showEditModal(product) {
-  // Implement a modal to edit product details
-  // This would be similar to the add product form but pre-filled
-  // and with an update button that calls supabase's update method
 }
