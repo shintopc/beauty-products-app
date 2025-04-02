@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Beauty Products</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Beauty Products</h2>
+    <nav>
+      <ul>
+        <li class="active"><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="customers.html">Customers</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="sales.html">Sales Reports</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="main-content">
+    <header>
+      <h1>Dashboard</h1>
+      <div class="user-info">
+        <span id="userEmail"></span>
+      </div>
+    </header>
+    
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3>Today's Sales</h3>
+        <p id="todaySales">₹0.00</p>
+      </div>
+      <div class="stat-card">
+        <h3>Weekly Sales</h3>
+        <p id="weeklySales">₹0.00</p>
+      </div>
+      <div class="stat-card">
+        <h3>Monthly Sales</h3>
+        <p id="monthlySales">₹0.00</p>
+      </div>
+      <div class="stat-card">
+        <h3>Low Stock</h3>
+        <p id="lowStockCount">0</p>
+      </div>
+    </div>
+    
+    <div class="recent-activity">
+      <h2>Recent Sales</h2>
+      <table id="recentSales">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filled by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/sales.js"></script>
+</body>
+</html>
