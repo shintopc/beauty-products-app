@@ -1,5 +1,8 @@
 // auth.js
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async function() {
+  // Get Supabase client from utils.js
+  const supabase = window._supabase;
+  
   // Handle login form
   const loginForm = document.getElementById('loginForm');
   if (loginForm) {
@@ -8,15 +11,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-      
-      if (error) {
-        document.getElementById('errorMessage').textContent = error.message;
-      } else {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+        
+        if (error) throw error;
         window.location.href = 'dashboard.html';
+      } catch (error) {
+        document.getElementById('errorMessage').textContent = error.message;
       }
     });
   }
