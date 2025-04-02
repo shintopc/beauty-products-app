@@ -1,6 +1,5 @@
 // auth.js
 document.addEventListener('DOMContentLoaded', async function() {
-  // Get Supabase client from utils.js
   const supabase = window._supabase;
   
   // Handle login form
