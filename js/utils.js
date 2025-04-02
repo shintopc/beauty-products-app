@@ -1,4 +1,4 @@
-// Initialize Supabase
+// utils.js
 const supabaseUrl = 'https://vmzentmmwxpmezofzjkz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtemVudG1td3hwbWV6b2Z6amt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1OTc3NjUsImV4cCI6MjA1OTE3Mzc2NX0.gZlwX7B8b6B3KAe9mAurBSoMb023OjlIHxSFmrpYi3o';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -9,7 +9,7 @@ function formatDate(date) {
 }
 
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
+  return '₹' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
 
 function showNotification(message, isError = false) {
@@ -31,5 +31,3 @@ async function checkAuth() {
   }
   return session;
 }
-
-export { supabase, formatDate, formatCurrency, showNotification, checkAuth };
