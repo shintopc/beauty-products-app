@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beauty Products - Login</title>
-  <link rel="stylesheet" href="css/style.css">
   <style>
     .login-container {
       max-width: 400px;
@@ -16,6 +15,25 @@
     }
     .form-group {
       margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
     .error-message {
       color: #ef4444;
@@ -41,8 +59,16 @@
     <p id="errorMessage" class="error-message"></p>
   </div>
 
+  <!-- Load Supabase client first -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Then load utils.js which initializes the client -->
   <script src="js/utils.js"></script>
+  <!-- Finally load auth.js which uses the client -->
   <script src="js/auth.js"></script>
+  
+  <script>
+    // Make supabase client available globally
+    window._supabase = _supabase;
+  </script>
 </body>
 </html>
