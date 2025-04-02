@@ -1,1 +1,169 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Reports - Beauty Products</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Beauty Products</h2>
+    <nav>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="customers.html">Customers</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li class="active"><a href="sales.html">Sales Reports</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="main-content">
+    <header>
+      <h1>Sales Reports</h1>
+      <div class="user-info">
+        <span id="userEmail"></span>
+      </div>
+    </header>
+    
+    <div class="filters">
+      <select id="dateFilter">
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+        <option value="year">This Year</option>
+        <option value="all">All Time</option>
+      </select>
+      
+      <div class="export-buttons">
+        <button id="exportPdf" class="btn-export">Export to PDF</button>
+        <button id="exportExcel" class="btn-export">Export to Excel</button>
+      </div>
+    </div>
+    
+    <div class="sales-summary">
+      <div class="summary-card">
+        <h3>Total Sales</h3>
+        <p id="totalSalesAmount">₹0.00</p>
+      </div>
+      <div class="summary-card">
+        <h3>Total Transactions</h3>
+        <p id="totalTransactions">0</p>
+      </div>
+      <div class="summary-card">
+        <h3>Average Sale</h3>
+        <p id="averageSale">₹0.00</p>
+      </div>
+    </div>
+    
+    <div class="sales-list">
+      <table id="salesTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filled by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Sale Details Modal -->
+  <div id="saleDetailsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Sale Details</h2>
+      <div id="saleDetailsContent">
+        <!-- Filled by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- New Sale Modal -->
+  <div id="newSaleModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>New Sale</h2>
+      <form id="newSaleForm">
+        <div class="form-group">
+          <label for="saleCustomer">Customer</label>
+          <select id="saleCustomer">
+            <option value="">Walk-in Customer</option>
+            <!-- Filled by JavaScript -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Products</label>
+          <div class="product-selection">
+            <select id="saleProduct">
+              <!-- Filled by JavaScript -->
+            </select>
+            <input type="number" id="saleQuantity" min="1" value="1" style="width: 80px;">
+            <button type="button" id="addProductBtn" class="btn-secondary">Add</button>
+          </div>
+        </div>
+        
+        <div class="selected-products">
+          <table id="selectedProductsTable">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="sale-totals">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="saleSubtotal">₹0.00</span>
+          </div>
+          <div class="total-row">
+            <span>Total:</span>
+            <span id="saleTotal">₹0.00</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="salePaymentMethod">Payment Method</label>
+          <select id="salePaymentMethod" required>
+            <option value="Cash">Cash</option>
+            <option value="Card">Card</option>
+            <option value="UPI">UPI</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="saleNotes">Notes</label>
+          <textarea id="saleNotes" rows="2"></textarea>
+        </div>
+        
+        <button type="submit" class="btn-primary">Complete Sale</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/sales.js"></script>
+</body>
+</html>
