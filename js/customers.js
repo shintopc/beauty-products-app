@@ -1,5 +1,4 @@
-import { supabase, formatDate, formatCurrency, showNotification, checkAuth } from './utils.js';
-
+// customers.js
 document.addEventListener('DOMContentLoaded', async () => {
   await checkAuth();
   
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadCustomers(searchTerm = '') {
-  let query = supabase
+  let query = window._supabase
     .from('customers')
     .select(`
       id,
@@ -127,7 +126,7 @@ async function saveCustomer() {
   try {
     if (id) {
       // Update existing customer
-      const { error } = await supabase
+      const { error } = await window._supabase
         .from('customers')
         .update(customerData)
         .eq('id', id);
@@ -136,7 +135,7 @@ async function saveCustomer() {
       showNotification('Customer updated successfully!');
     } else {
       // Add new customer
-      const { error } = await supabase
+      const { error } = await window._supabase
         .from('customers')
         .insert([customerData]);
       
@@ -162,7 +161,7 @@ async function deleteCustomer(customerId) {
   
   try {
     // First check if customer has any sales
-    const { count } = await supabase
+    const { count } = await window._supabase
       .from('sales')
       .select('*', { count: 'exact' })
       .eq('customer_id', customerId);
@@ -172,7 +171,7 @@ async function deleteCustomer(customerId) {
       return;
     }
     
-    const { error } = await supabase
+    const { error } = await window._supabase
       .from('customers')
       .delete()
       .eq('id', customerId);
