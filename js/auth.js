@@ -1,5 +1,4 @@
-import { supabase, showNotification } from './utils.js';
-
+// auth.js
 document.addEventListener('DOMContentLoaded', async () => {
   // Handle login form
   const loginForm = document.getElementById('loginForm');
